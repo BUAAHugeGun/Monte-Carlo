@@ -5,8 +5,20 @@ from scipy import integrate
 from scipy.stats import norm
 
 
-class GMM():
+class base_model():
+    def __init__(self):
+        pass
+
+    def cdf(self, x):
+        pass
+
+    def ppf(self, x):
+        pass
+
+
+class GMM(base_model):
     def __init__(self, k, mu, sigma, alpha):
+        super(GMM, self).__init__()
         self.k = k
         self.gauss = []
         for i in range(k):
@@ -33,10 +45,9 @@ class GMM():
         return ret
 
     def ppf(self, x):
-        assert x >= 0. and x <= 1.
-        l = -10000000
-        r = 10000000
-        while r - l > 1e-7:
+        l = -1000000
+        r = 1000000
+        while r - l > 1e-5:
             mid = (l + r) / 2
             if self.cdf(mid) <= x:
                 l = mid
@@ -48,10 +59,14 @@ class GMM():
         x = np.linspace(-10, 10, 100000)
         p = self.f(x)
         plt.plot(x, p)
-        plt.show()
+        # plt.show()
 
 
 if __name__ == '__main__':
     gmm = GMM(2, [0, 3], [3, 0.8], [0.8, 0.2])
-    print(gmm.f(2))
-    gmm.plot()
+    from random import random
+    from tqdm import tqdm
+
+    x = []
+    for i in tqdm(range(1000)):
+        x.append(gmm.ppf(random()))
