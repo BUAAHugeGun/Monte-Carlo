@@ -15,6 +15,9 @@ class base_model():
     def ppf(self, x):
         pass
 
+    def plot(self):
+        pass
+
 
 class GMM(base_model):
     def __init__(self, k, mu, sigma, alpha):
@@ -56,7 +59,7 @@ class GMM(base_model):
         return (l + r) / 2
 
     def plot(self):
-        x = np.linspace(-10, 10, 100000)
+        x = np.linspace(-15, 15, 100000)
         p = self.f(x)
         plt.plot(x, p)
         # plt.show()
@@ -70,3 +73,4 @@ if __name__ == '__main__':
     x = []
     for i in tqdm(range(1000)):
         x.append(gmm.ppf(random()))
+
